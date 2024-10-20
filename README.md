@@ -2,7 +2,7 @@
 
 Welcome to my Autonomous Vehicles Project repository! This repository contains resources for fine-tuning a **DETR** model and performing inference on real-world road footage, along with a small-scaled literature review on **Out-of-Distribution (OOD)** detection and current solutions for **collision-avoidance decision-making** in autonomous vehicles (AV).
 
-_Please make sure you read this readme very carefully since I want you to know that I have been fully committed to this problem for the last three days._ 
+_Please make sure you read this readme very carefully since I want you to know that I have been fully committed to this problem for the last three days. The readme not only contains the information of the project but also explains how I tried to solve each part of the problem._ 
 
 ## 📝 Problem Description:
 _Despite the popularity of autonomous vehicles, the robustness of these vehicles degrades when operating in the rural areas or new environments. To address this challenge, your task is to build an AI system that has the following capabilities during the vehicle navigation:_ 
@@ -129,7 +129,7 @@ The task of detect novel objects in an image/video can be translated into the pr
 
 _I also found a GitHub repository contains collected articles, benchmarks, papers,... related to OOD:_ [OOD Machine Learning: Detection, Robustness, and Generalization](https://github.com/huytransformer/Awesome-Out-Of-Distribution-Detection)
 
-_Unfortunately, I couldn't found any benchmarks in object detection/segmentation specificly. Because of the time contraint, I was only able to look through the OOD Detection part but not OOD Robustness, OOD Generalization and OOD Everything else part of the repository. But here are my key findings in some of the most recent papers about OOD Detection in object detection/segmentation that I found. I also chose papers with public implemented code._
+_Unfortunately, I couldn't find any benchmarks in object detection/segmentation specifically. Because of the time constraint, I was only able to look through the OOD Detection part but not other parts of the repository. But here are my key findings in some of the most recent papers about OOD Detection in object detection/segmentation that I found. I also only chose papers with public implemented code._
 
 ___
 
