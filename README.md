@@ -2,7 +2,7 @@
 
 Welcome to my Autonomous Vehicles Project repository! This repository contains resources for fine-tuning a **DETR** model and performing inference on real-world road footage, along with a small-scaled literature review on **Out-of-Distribution (OOD)** detection and current solutions for **collision-avoidance decision-making** in autonomous vehicles (AV).
 
-_Please make sure you read this readme very carefully since I want you to know that I have been really fully committed to this problem for the last three days._ 
+_Please make sure you read this readme very carefully since I want you to know that I have been fully committed to this problem for the last three days._ 
 
 ## 📝 Problem Description:
 _Despite the popularity of autonomous vehicles, the robustness of these vehicles degrades when operating in the rural areas or new environments. To address this challenge, your task is to build an AI system that has the following capabilities during the vehicle navigation:_ 
