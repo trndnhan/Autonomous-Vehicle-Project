@@ -1,0 +1,90 @@
+# Function to check if a bounding box falls in a low depth value region
+def is_object_close(bbox, depth_map, depth_threshold):
+    # Extract the region of the depth map corresponding to the bounding box
+    x_min, y_min, x_max, y_max = bbox
+    region = depth_map[y_min:y_max, x_min:x_max]
+    
+    # Calculate the average depth value in the bounding box region
+    avg_depth = np.mean(region)
+    
+    # Check if the object is close (i.e., depth value is below a certain threshold)
+    return avg_depth < depth_threshold
+
+# Function to make navigation decisions based on detected objects and depth map
+def make_navigation_decision(detected_objects, unknown_objects, depth_map, traffic_lights, traffic_light_threshold, depth_threshold):
+    # Initialize flags
+    stop = False
+    steer_direction = None
+
+    # Process known objects (vehicles, pedestrians, etc.)
+    for obj in detected_objects:
+        bbox = obj['bbox']
+        label = obj['label']
+        
+        # Check if object is close to the AV using the depth map
+        if is_object_close(bbox, depth_map, depth_threshold):
+            if label in ["car", "pedestrian", "cyclist"]:
+                stop = True  # Stop if the object is too close
+
+    # Process unknown objects (novel obstacles)
+    for unknown in unknown_objects:
+        bbox = unknown['bbox']
+        
+        # Check if unknown object is close to the AV using the depth map
+        if is_object_close(bbox, depth_map, depth_threshold):
+            stop = True  # Stop if the unknown object is too close
+            steer_direction = determine_steer_direction(bbox, AV_position)  # Determine direction to navigate around the object
+    
+    # Process traffic lights
+    for light in traffic_lights:
+        label = light['label']
+        confidence = light['confidence']
+        
+        if confidence > traffic_light_threshold:
+            if label == "red":
+                stop = True  # Stop if the traffic light is red
+            elif label == "green" and not stop:
+                stop = False  # Proceed if the traffic light is green and no objects are close
+
+    # Final decision
+    if stop:
+        take_action("STOP")
+    elif steer_direction:
+        take_action("STEER", steer_direction)
+    else:
+        take_action("MOVE_FORWARD")
+
+# Function to determine which direction to steer based on the object's position
+def determine_steer_direction(object_bbox, AV_position):
+    # Check if the object is on the left or right side of the AV
+    obj_x_center = (object_bbox[0] + object_bbox[2]) / 2
+    if obj_x_center < AV_position['x']:
+        return "RIGHT"  # Steer to the right if object is on the left
+    else:
+        return "LEFT"  # Steer to the left if object is on the right
+
+# Function to take the appropriate action (e.g., stop, steer, or move forward)
+def take_action(action, direction=None):
+    if action == "STOP":
+        print("Stopping the vehicle")
+    elif action == "STEER":
+        print(f"Steering {direction}")
+    elif action == "MOVE_FORWARD":
+        print("Moving forward")
+
+# Main function to run the AV navigation system
+def autonomous_vehicle_navigation(detection_model, depth_map, traffic_light_model):
+    # Detect known objects (cars, pedestrians, etc.)
+    detected_objects = detection_model.detect_objects(video_frame)
+    
+    # Detect unknown objects (novel obstacles)
+    unknown_objects = OOD_model.detect_unknown_objects(video_frame)
+    
+    # Detect traffic lights and their states
+    traffic_lights = traffic_light_model.detect_traffic_lights(video_frame)
+    
+    # Get the AV's depth map
+    depth_map = get_depth_map(video_frame)
+    
+    # Make navigation decision based on detected objects and depth map
+    make_navigation_decision(detected_objects, unknown_objects, depth_map, traffic_lights, traffic_light_threshold=0.8, depth_threshold=0.3)
