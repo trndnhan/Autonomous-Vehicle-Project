@@ -225,3 +225,5 @@ ___
 - Utilize the pretrained OOD model and fine-tune if needed.
 - Build a complete collision avoindance system and integrate everything into one pipeline.
 - Use simulation software (like CARLA, AirSim, or Gazebo) to create diverse driving scenarios for testing.
+
+_Note: In the next week, if I am able to finish the code for the second and third part, I will upload and update the files in this repository, they will have the commit message 'Commit after the submission' so you will be able to distinguish from the files before submission._
