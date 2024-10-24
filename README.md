@@ -121,6 +121,24 @@ _Note: Access to GPU/TPU should improve the the computational and time cost, for
 ___
 ## 📊 Part 2: Current OOD Objects Detection Universal Research Progress
 
+_After Submission Update: Include two simple OOD Detection Method in `inference.ipynb' and output videos in `output` directory. Two new OOD Detection methods are explained below:_
+
+1. **MSP (Maximum Softmax Probability):**
+MSP is a straightforward approach where the model's output probabilities are used to assess the confidence of predictions. Here is how it was implemented:
+- We compute the softmax probabilities from the DETR logits (logits.softmax(dim=-1)).
+- The max(dim=-1) function extracts the maximum softmax probability for each object detected.
+- We then define a threshold (e.g., 0.5) to classify whether an object is OOD. If the maximum softmax probability is less than this threshold, the object is considered OOD.
+- We filter out "no-object" predictions (class ID 91).
+- For each detected object, the code prints the predicted class, the maximum softmax probability, and whether it's considered OOD.
+
+2. **Energy Score**:
+The energy score is derived from a model's output and is designed to quantify the "energy" associated with a sample in relation to the model's learned distributions. Here is how it was implemented:
+- The energy score is calculated as the negative logarithm of the maximum softmax probability for each object detected. This indicates the confidence of the model's prediction.
+- We define an energy_threshold, which is used to classify whether an object is OOD.
+- For each frame in the video, compute energy scores, draw bounding boxes, and save the annotated frames in a new video file.
+
+_End of after submission updates_
+
 The task of detect novel objects in an image/video can be translated into the problem of **Out-of-distribution (OOD) Object Detection**. _From my understanding_, OOD Detection is basically a task where the model has to regconize an object it have never seen before (ie. the unknown object does not belong to a class the model is trained on) and avoid treating the unknown object as part of the background. The field of OOD research encompasses several key areas:
 
 -   **🛠️ OOD Detection**:  aims to identify when a model is presented with inputs that deviate from its training distribution. This allows systems to flag unusual cases for human review or fallback strategies.
